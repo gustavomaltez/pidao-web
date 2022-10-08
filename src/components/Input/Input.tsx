@@ -1,5 +1,6 @@
-// Types -----------------------------------------------------------------------
 import { Fragment } from 'react';
+
+// Types -----------------------------------------------------------------------
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /** Text to be displayed at the top. **/
@@ -50,7 +51,7 @@ function Error(props: InputProps): JSX.Element {
 
 function getInputClassName(props: InputProps): string {
   const classes = [
-    'bg-white  text-gray-400 text-sm',
+    'bg-white text-gray-400 text-sm',
     'border-2 rounded-lg',
     'block w-full p-2.5',
   ];
