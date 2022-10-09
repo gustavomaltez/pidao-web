@@ -1,4 +1,5 @@
 import { Button, Input } from '@components';
+import { Link } from 'react-router-dom';
 
 import logo from './images/logo.png';
 
@@ -24,6 +25,15 @@ export function LoginScreen(): JSX.Element {
           label='Entrar'
           type='submit'
         />
+        <p className='text-center'>
+          Sua primeira vez aqui? {' '}
+          <Link
+            className='text-primary opacity-85 hover:opacity-100'
+            to="/register"
+          >
+            Realizar Cadastro
+          </Link>
+        </p>
       </form>
     </main>
   );
