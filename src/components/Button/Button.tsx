@@ -23,7 +23,7 @@ export function Button(props: ButtonProps): JSX.Element {
 
 function getButtonClassName(props: ButtonProps): string {
   const classes = [
-    'text-sm',
+    'text-sm hover:opacity-95',
     'border-2 rounded-lg',
     'block w-full px-2 h-11',
   ];
