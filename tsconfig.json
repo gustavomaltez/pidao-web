@@ -24,6 +24,9 @@
       "@components": [
         "components"
       ],
+      "@screens": [
+        "screens"
+      ],
     }
   },
   "include": [
