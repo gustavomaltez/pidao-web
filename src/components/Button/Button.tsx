@@ -13,6 +13,7 @@ export function Button(props: ButtonProps): JSX.Element {
   return (
     <button
       className={getButtonClassName(props)}
+      {...props}
     >
       {props.label}
     </button>
