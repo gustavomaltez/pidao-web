@@ -174,7 +174,7 @@ function AddressInfos(): JSX.Element {
           id='addressNumber'
           type='number'
           label='Número'
-          placeholder='Número'
+          placeholder='N°'
           containerClassName='w-1/4'
         />
       </div>
