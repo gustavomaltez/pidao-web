@@ -1,4 +1,5 @@
 import { Button, Input } from '@components';
+import { ArrowLeftIcon, ArrowRightIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -88,13 +89,22 @@ function NavBar(props: NavBarProps): JSX.Element {
   return (
     <div className="flex gap-4">
       {['both', 'done'].includes(props.state) && (
-        <Button theme='primary' label='Anterior' type='button' onClick={props.onBack} />
+        <Button
+          theme='primary'
+          label='Anterior'
+          type='button'
+          onClick={props.onBack}
+          icon={ArrowLeftIcon}
+          iconPosition='left'
+        />
       )}
       <Button
         theme='primary'
         label={props.state === 'done' ? 'Registrar' : 'Próximo'}
         type={props.state === 'done' ? 'submit' : 'button'}
         onClick={props.onNext}
+        icon={props.state === 'done' ? CheckIcon : ArrowRightIcon}
+        iconPosition='right'
       />
     </div>
   );
