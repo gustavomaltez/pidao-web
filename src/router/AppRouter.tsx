@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { Login, Register } from './routes';
+import { Login, Redirect, Register } from './routes';
 import { RouteWrapper } from './RouteWrapper';
 
 export function AppRouter(): JSX.Element {
@@ -9,6 +9,10 @@ export function AppRouter(): JSX.Element {
       <Routes>
         <Route
           path="/"
+          element={<Redirect />}
+        />
+        <Route
+          path="/login"
           element={<RouteWrapper element={<Login />} isPrivate title='Pidão | Login' />}
         />
         <Route
