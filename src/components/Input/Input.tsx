@@ -9,17 +9,22 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
   /** Optional error message to be displayed bellow input. **/
   error?: string;
+  /** Optional extra classnames to apply to Input container. **/
+  containerClassName?: string;
 }
 
 // Component -------------------------------------------------------------------
 
 export function Input(props: InputProps): JSX.Element {
+  const _props = { ...props };
+  delete _props.containerClassName;
+
   return (
-    <div>
+    <div className={getContainerClassName(props)}>
       <Label {...props} />
       <input
+        {..._props}
         className={getInputClassName(props)}
-        {...props}
       />
       <Error {...props} />
     </div>
@@ -49,6 +54,13 @@ function Error(props: InputProps): JSX.Element {
 
 // Helpers ---------------------------------------------------------------------
 
+function getContainerClassName(props: InputProps): string {
+  const classes = ['w-full'];
+  if (props.containerClassName)
+    classes.push(props.containerClassName);
+  return classes.join(' ');
+}
+
 function getInputClassName(props: InputProps): string {
   const classes = [
     'bg-white text-gray-400 text-sm',
@@ -56,6 +68,8 @@ function getInputClassName(props: InputProps): string {
     'block w-full p-2.5',
   ];
 
+  if (props.className)
+    classes.push(props.className);
   if (props.error)
     classes.push('border-red-500 focus:ring-red-500 focus:border-red-500');
   else
