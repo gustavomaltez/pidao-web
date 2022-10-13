@@ -1,7 +1,6 @@
+import { loginLogo } from '@assets/images';
 import { Button, Input } from '@components';
 import { Link, useNavigate } from 'react-router-dom';
-
-import logo from './images/logo.png';
 
 export function LoginScreen(): JSX.Element {
   // Hooks ---------------------------------------------------------------------
@@ -20,7 +19,7 @@ export function LoginScreen(): JSX.Element {
 
   return (
     <main className={getMainContainerClassName()}>
-      <img src={logo} className="w-16 mx-auto my-4" />
+      <img src={loginLogo} className="w-16 mx-auto my-4" />
       <form
         onSubmit={onSubmit}
         className="flex flex-col gap-4 mx-auto w-full"

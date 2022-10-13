@@ -1,9 +1,8 @@
+import { registerLogo } from '@assets/images';
 import { Button, Input } from '@components';
 import { ArrowLeftIcon, ArrowRightIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { Fragment, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-import logo from './images/logo.png';
 
 // Types -----------------------------------------------------------------------
 
@@ -61,7 +60,7 @@ export function RegisterScreen(): JSX.Element {
 
   return (
     <main className={getMainContainerClassName()}>
-      <img src={logo} className="w-16 mx-auto my-4" />
+      <img src={registerLogo} className="w-16 mx-auto my-4" />
       <form
         className="flex flex-col gap-4 mx-auto w-full"
         onSubmit={e => e.preventDefault()}

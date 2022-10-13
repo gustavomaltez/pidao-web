@@ -24,6 +24,9 @@
       "@components": [
         "components"
       ],
+      "@assets/images": [
+        "assets/images"
+      ],
       "@screens": [
         "screens"
       ],
