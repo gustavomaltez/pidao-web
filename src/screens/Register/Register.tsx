@@ -1,7 +1,7 @@
 import { Button, Input } from '@components';
 import { ArrowLeftIcon, ArrowRightIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import logo from './images/logo.png';
 
@@ -18,13 +18,19 @@ interface NavBarProps {
   state: NavBarState;
   onBack: () => void;
   onNext: () => void;
+  onDone: () => void;
 }
 
 // Component -------------------------------------------------------------------
 
 export function RegisterScreen(): JSX.Element {
+  // Hooks ---------------------------------------------------------------------
+
+  const navigate = useNavigate();
   const [navBarState, setNavBarState] = useState<NavBarState>('next');
   const [screen, setScreen] = useState<Screen>('main');
+
+  // Internal Navigation -------------------------------------------------------
 
   function onNextClick(): void {
     if (screen === 'main') {
@@ -46,19 +52,27 @@ export function RegisterScreen(): JSX.Element {
     }
   }
 
-  function onSubmit(event: React.FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
+  function onDoneClick(): void {
+    // ToDo: add logic to register
+    navigate('/dashboard');
   }
+
+  // Rendering -----------------------------------------------------------------
 
   return (
     <main className={getMainContainerClassName()}>
       <img src={logo} className="w-16 mx-auto my-4" />
       <form
         className="flex flex-col gap-4 mx-auto w-full"
-        onSubmit={onSubmit}
+        onSubmit={e => e.preventDefault()}
       >
         <CurrentScreen screen={screen} />
-        <NavBar state={navBarState} onBack={onBackClick} onNext={onNextClick} />
+        <NavBar
+          state={navBarState}
+          onBack={onBackClick}
+          onNext={onNextClick}
+          onDone={onDoneClick}
+        />
         <p className='text-center'>
           Já possi um cadastro? {' '}
           <Link
@@ -101,8 +115,7 @@ function NavBar(props: NavBarProps): JSX.Element {
       <Button
         theme='primary'
         label={props.state === 'done' ? 'Registrar' : 'Próximo'}
-        type={props.state === 'done' ? 'submit' : 'button'}
-        onClick={props.onNext}
+        onClick={props.state === 'done' ? props.onDone : props.onNext}
         icon={props.state === 'done' ? CheckIcon : ArrowRightIcon}
         iconPosition='right'
       />

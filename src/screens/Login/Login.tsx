@@ -1,13 +1,30 @@
 import { Button, Input } from '@components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import logo from './images/logo.png';
 
 export function LoginScreen(): JSX.Element {
+  // Hooks ---------------------------------------------------------------------
+
+  const navigate = useNavigate();
+
+  // Handlers ------------------------------------------------------------------
+
+  function onSubmit(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    // ToDo: add logic to login
+    navigate('/dashboard');
+  }
+
+  // Rendering -----------------------------------------------------------------
+
   return (
     <main className={getMainContainerClassName()}>
       <img src={logo} className="w-16 mx-auto my-4" />
-      <form className="flex flex-col gap-4 mx-auto w-full">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-4 mx-auto w-full"
+      >
         <Input
           id='email'
           type='email'
