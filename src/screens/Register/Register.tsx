@@ -198,19 +198,21 @@ function AddressInfos(): JSX.Element {
           placeholder='Insira seu estado'
         />
       </div>
-
-      <Input
-        id='zipCode'
-        type='text'
-        label='CEP'
-        placeholder='Insira seu CEP'
-      />
-      <Input
-        id='complement'
-        type='text'
-        label='Complemento'
-        placeholder='Insira seu complemento'
-      />
+      <div className='flex flex-row w-full gap-4'>
+        <Input
+          id='zipCode'
+          type='number'
+          label='CEP'
+          placeholder='Insira seu CEP'
+          containerClassName='w-2/5'
+        />
+        <Input
+          id='complement'
+          type='text'
+          label='Complemento'
+          placeholder='Insira seu complemento'
+        />
+      </div>
     </>
   );
 }
