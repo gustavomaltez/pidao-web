@@ -1,7 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { Login, Redirect, Register } from './routes';
+import { Dashboard, Login, Redirect, Register } from './routes';
 import { RouteWrapper } from './RouteWrapper';
+
+// Routes definitions ----------------------------------------------------------
+
+const RedirectElement = <Redirect />;
+const LoginElement = <RouteWrapper element={<Login />} isPrivate title='Pidão | Login' />;
+const RegisterElement = <RouteWrapper element={<Register />} isPrivate title='Pidão | Register' />;
+const DashboardElement = <RouteWrapper element={<Dashboard />} isPrivate title='Pidão | Dashboard' />;
+
+// Router ----------------------------------------------------------------------
 
 export function AppRouter(): JSX.Element {
   return (
@@ -9,15 +18,19 @@ export function AppRouter(): JSX.Element {
       <Routes>
         <Route
           path="/"
-          element={<Redirect />}
+          element={RedirectElement}
         />
         <Route
           path="/login"
-          element={<RouteWrapper element={<Login />} isPrivate title='Pidão | Login' />}
+          element={LoginElement}
         />
         <Route
           path="/register"
-          element={<RouteWrapper element={<Register />} isPrivate title='Pidão | Cadastro de Cliente' />}
+          element={RegisterElement}
+        />
+        <Route
+          path="/dashboard"
+          element={DashboardElement}
         />
       </Routes>
     </BrowserRouter>
