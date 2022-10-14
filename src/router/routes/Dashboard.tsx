@@ -1,6 +1,7 @@
-import { ClientDashboardScreen } from '@screens';
+import { AdminDashboardScreen, ClientDashboardScreen } from '@screens';
 
 export function Dashboard(): JSX.Element {
   // Add logic to redirect to admin or client dashboard
-  return <ClientDashboardScreen />;
+  const isAdmin = window.location.hash.includes('#adm');
+  return isAdmin ? <AdminDashboardScreen /> : <ClientDashboardScreen />;
 }

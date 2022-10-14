@@ -23,7 +23,7 @@ interface SideBarProps {
 export function SideBar(props: SideBarProps): JSX.Element {
   return (
     <nav
-      className='bg-gray-200 w-max h-full p-8 text-2xl'
+      className='bg-gray-200 w-max h-full p-8 text-xl'
     >
       <img src={logo} className='mb-10 w-48' />
       <div className='flex flex-col gap-5'>
