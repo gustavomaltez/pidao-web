@@ -25,7 +25,7 @@ export function SideBar(props: SideBarProps): JSX.Element {
     <nav
       className='bg-gray-200 w-max h-full p-8 text-2xl'
     >
-      <img src={logo} className='mb-10' />
+      <img src={logo} className='mb-10 w-48' />
       <div className='flex flex-col gap-5'>
         {props.items.map(item => <Item key={item.label} {...item} />)}
       </div>
