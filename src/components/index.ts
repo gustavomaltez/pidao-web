@@ -4,3 +4,4 @@ export { SideBar } from './SideBar/SideBar';
 export { CategorySelector } from './CategorySelector/CategorySelector';
 export { MenuItem } from './MenuItem/MenuItem';
 export { CartItem } from './CartItem/CartItem';
+export { ItemEntry } from './ItemEntry/ItemEntry';
