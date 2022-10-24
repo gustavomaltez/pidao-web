@@ -95,9 +95,14 @@ export function RegisterScreen(): JSX.Element {
     if (data.dateOfBirth.length !== 10) return toast.error('A data de nascimento deve ter 10 caracteres no formato 00/00/0000!');
     if (data.email.indexOf('@') === -1) return toast.error('O e-mail deve ter o formato nome@domínio.com!');
 
+    const _data = {
+      ...data,
+      type: 'client',
+    };
+
     const response = await fetch(
       'api/register',
-      { body: JSON.stringify(data), method: 'POST' }
+      { body: JSON.stringify(_data), method: 'POST' }
     );
     const responseData = await response.json();
     if (responseData.error) return toast.error(responseData.error);
