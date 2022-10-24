@@ -1,17 +1,30 @@
 import { loginLogo } from '@assets/images';
 import { Button, Input } from '@components';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export function LoginScreen(): JSX.Element {
   // Hooks ---------------------------------------------------------------------
 
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   // Handlers ------------------------------------------------------------------
 
-  function onSubmit(event: React.FormEvent<HTMLFormElement>): void {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // ToDo: add logic to login
+
+    if (!email || !password) return toast.error('Preencha todos os campos!');
+    const response = await fetch(
+      'api/login',
+      { body: JSON.stringify({ email, password }), method: 'POST' }
+    );
+    const data = await response.json();
+    if (data.error) return toast.error(data.error);
+
+    toast.success('Usuário autenticado com successo!');
     navigate('/dashboard');
   }
 
@@ -29,12 +42,16 @@ export function LoginScreen(): JSX.Element {
           type='email'
           label='E-mail'
           placeholder='Insira seu e-mail'
+          value={email}
+          onChange={e => setEmail(e.target.value)}
         />
         <Input
           id='password'
           type='password'
           label='Senha'
           placeholder='Insira sua senha'
+          value={password}
+          onChange={e => setPassword(e.target.value)}
         />
         <Button
           theme='primary'
