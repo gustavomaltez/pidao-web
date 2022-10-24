@@ -15,11 +15,11 @@ interface MenuItemProps {
 
 export function MenuItem(props: MenuItemProps): JSX.Element {
   return (
-    <div className='p-2 rounded-md border-gray-200 border-2 max-w-[232px] bg-gray-100'>
+    <div className='p-2 rounded-md border-gray-200 border-2 max-w-[220px] bg-gray-100'>
       <img
         src={props.image}
         alt={props.title}
-        className='w-full h-40 object-cover rounded-md'
+        className='w-full h-40 object-cover rounded-md mx-auto'
       />
       <div className='flex flex-row justify-between py-2'>
         <p className='w-full'>{props.title}</p>
@@ -34,6 +34,7 @@ export function MenuItem(props: MenuItemProps): JSX.Element {
         icon={ShoppingCartIcon}
         iconPosition='right'
         label='Adicionar ao carrinho'
+        onClick={props.onClick}
       />
     </div>
   );
