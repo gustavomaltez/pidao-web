@@ -1,6 +1,6 @@
 import { loginLogo } from '@assets/images';
 import { Button, Input } from '@components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -10,6 +10,10 @@ export function LoginScreen(): JSX.Element {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    window.localStorage.clear();
+  }, []);
 
   // Handlers ------------------------------------------------------------------
 
@@ -25,6 +29,7 @@ export function LoginScreen(): JSX.Element {
     if (data.error) return toast.error(data.error);
 
     toast.success('Usuário autenticado com successo!');
+    window.localStorage.setItem('user', JSON.stringify(data.user));
     navigate('/dashboard');
   }
 

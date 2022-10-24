@@ -107,6 +107,7 @@ export function RegisterScreen(): JSX.Element {
     const responseData = await response.json();
     if (responseData.error) return toast.error(responseData.error);
     toast.success('Usuário cadastrado com successo!');
+    window.localStorage.setItem('user', JSON.stringify(responseData.user));
     navigate('/dashboard');
   }
 
