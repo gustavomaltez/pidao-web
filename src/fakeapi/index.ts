@@ -95,9 +95,12 @@ export function startFakeAPI() {
       this.post('/api/login', (schema: any, request) => {
         const { email, password } = JSON.parse(request.requestBody);
         const user = schema.users.findBy({ email, password });
-        const userWithoutPassword = { ...user.attrs };
-        delete userWithoutPassword.password;
-        if (user) return new Response(200, {}, { user: userWithoutPassword });
+
+        if (user) {
+          const userWithoutPassword = { ...user.attrs };
+          delete userWithoutPassword.password;
+          return new Response(200, {}, { user: userWithoutPassword });
+        }
         return new Response(400, {}, { error: 'E-mail ou senha incorretos' });
       });
 
