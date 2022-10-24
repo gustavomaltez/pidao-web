@@ -6,6 +6,7 @@ export function startFakeAPI() {
     models: {
       user: Model,
       item: Model,
+      order: Model,
     },
 
     seeds(server) {
@@ -81,6 +82,11 @@ export function startFakeAPI() {
       this.post('/api/orders', (schema: any, request) => {
         const { items, client } = JSON.parse(request.requestBody);
         schema.orders.create({ items, client });
+        items.forEach((item: any) => {
+          const itemFromDB = schema.items.find(item.id);
+          itemFromDB.update({ quantity: itemFromDB.quantity - item.quantity });
+        });
+
         return schema.orders.all();
       });
     },

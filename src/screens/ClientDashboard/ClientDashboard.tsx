@@ -32,6 +32,7 @@ interface CartProps {
   cart: CartEntry[];
   removeFromCart: (item: Item) => void;
   updateQuantity: (item: Item, quantity: number) => void;
+  clearCart: () => void;
 }
 
 // Component -------------------------------------------------------------------
@@ -43,15 +44,19 @@ export function ClientDashboardScreen(): JSX.Element {
   const [search, setSearch] = useState<string>('');
   const [selectedView, setSelectedView] = useState<'menu' | 'cart'>('menu');
 
-  useEffect(() => {
-    async function fetchItems() {
-      const response = await fetch('api/items', { method: 'GET' });
-      const data = await response.json();
-      setItems(data.items.map((item: CartEntry) => ({ ...item, quantity: 0, totalAvailable: item.quantity })));
-    }
+  async function fetchItems() {
+    const response = await fetch('api/items', { method: 'GET' });
+    const data = await response.json();
+    const filteredItems = data.items
+      .map((item: CartEntry) => ({ ...item, quantity: 0, totalAvailable: item.quantity }))
+      .filter((item: CartEntry) => item.totalAvailable > 0);
+    setItems(filteredItems);
+  }
 
-    fetchItems();
-  }, []);
+  useEffect(() => {
+    if (cart.length === 0)
+      fetchItems();
+  }, [cart]);
 
   return (
     <section className='flex flex-row h-screen'>
@@ -121,6 +126,7 @@ export function ClientDashboardScreen(): JSX.Element {
               toast.success(`Quantidade de "${item.name}" atualizada para ${quantity}!`);
             }
           }}
+          clearCart={() => setCart([])}
         />
       )}
     </section>
@@ -178,6 +184,20 @@ function Menu(props: MenuProps): JSX.Element {
 
 function Cart(props: CartProps): JSX.Element {
   const total = props.cart.reduce((total, entry) => total + entry.price * entry.quantity, 0).toFixed(2);
+
+  async function handleOrder() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const response = await fetch(
+      'api/orders',
+      { body: JSON.stringify({ items: props.cart, client: user }), method: 'POST' }
+    );
+
+    if (response.status !== 201) return toast.error('Erro ao registrar pedido');
+
+    toast.success('Pedido realizado com sucesso!');
+    props.clearCart();
+  }
+
   return (
     <section className='flex flex-col w-full h-screen overflow-y-auto gap-5 p-4'>
       <div className='mx-4 mt-2 flex flex-row justify-between'>
@@ -209,7 +229,7 @@ function Cart(props: CartProps): JSX.Element {
           <Button
             theme='primary'
             label='Finalizar pedido'
-            onClick={() => toast.success('Pedido finalizado com sucesso!')}
+            onClick={handleOrder}
           />
         </div>
       )}
