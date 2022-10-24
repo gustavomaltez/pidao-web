@@ -12,7 +12,8 @@ interface CartItemProps {
   image: string;
   quantity: number;
   totalAvailable: number;
-  updateQuantity: (item: Omit<CartItemProps, 'updateQuantity'>, quantity: number) => void;
+  updateQuantity?: (item: Omit<CartItemProps, 'updateQuantity'>, quantity: number) => void;
+  lockQuantity?: boolean;
 }
 
 // Component -------------------------------------------------------------------
@@ -22,7 +23,7 @@ export function CartItem(props: CartItemProps): JSX.Element {
 
   function updateQuantity(event: React.ChangeEvent<HTMLInputElement>) {
     setQuantity(Number(event.target.value));
-    props.updateQuantity(props, Number(event.target.value));
+    props.updateQuantity?.(props, Number(event.target.value));
   }
 
   return (
@@ -42,6 +43,7 @@ export function CartItem(props: CartItemProps): JSX.Element {
         value={quantity}
         onChange={updateQuantity}
         containerClassName='w-20'
+        disabled={props.lockQuantity}
       />
       <p>R${(props.price * props.quantity).toFixed(2)}</p>
     </div>
