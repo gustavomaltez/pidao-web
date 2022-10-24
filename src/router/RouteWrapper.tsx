@@ -14,21 +14,14 @@ interface RouteWrapperProps {
 // Component -------------------------------------------------------------------
 
 export function RouteWrapper(props: RouteWrapperProps): JSX.Element {
-  const { isAuthenticated } = useAuth();
+  const user = JSON.parse(window.localStorage.getItem('user') || '{}');
 
   if (props.title)
     document.title = props.title;
 
-  if (props.isPrivate && !isAuthenticated)
+  if (props.isPrivate && user.id === undefined && window.location.pathname !== '/login')
     return <Navigate to="/login" />;
 
   return props.element;
 }
 
-// Stubs -----------------------------------------------------------------------
-
-function useAuth() {
-  return {
-    isAuthenticated: true,
-  };
-}

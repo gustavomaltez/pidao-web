@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { CategorySelector, Input, MenuItem, SideBar } from '@components';
+import { Button, CartItem, CategorySelector, Input, MenuItem, SideBar } from '@components';
 import { HomeIcon, MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ interface Item {
   name: string;
   price: number;
   image: string;
+  totalAvailable: number;
 }
 
 interface CartEntry extends Item {
@@ -30,8 +31,7 @@ interface MenuProps {
 interface CartProps {
   cart: CartEntry[];
   removeFromCart: (item: Item) => void;
-  incrementQuantity: (item: Item) => void;
-  decrementQuantity: (item: Item) => void;
+  updateQuantity: (item: Item, quantity: number) => void;
 }
 
 // Component -------------------------------------------------------------------
@@ -47,7 +47,7 @@ export function ClientDashboardScreen(): JSX.Element {
     async function fetchItems() {
       const response = await fetch('api/items', { method: 'GET' });
       const data = await response.json();
-      setItems(data.items);
+      setItems(data.items.map((item: CartEntry) => ({ ...item, quantity: 0, totalAvailable: item.quantity })));
     }
 
     fetchItems();
@@ -80,6 +80,11 @@ export function ClientDashboardScreen(): JSX.Element {
           setSelectedCategory={setSelectedCategory}
           addToCart={item => {
             const entry = cart.find(entry => entry.id === item.id);
+            const currentAmount = entry ? entry.quantity : 0;
+            const totalAvailable = entry ? entry.totalAvailable : 0;
+
+            if (currentAmount !== 0 && currentAmount + 1 > totalAvailable) return toast.error('Quantidade indisponível');
+
             if (entry) {
               entry.quantity += 1;
               setCart([...cart]);
@@ -102,25 +107,18 @@ export function ClientDashboardScreen(): JSX.Element {
               toast.success(`${item.name} removido do carrinho!`);
             }
           }}
-          incrementQuantity={item => {
+          updateQuantity={(item, quantity) => {
             const entry = cart.find(entry => entry.id === item.id);
-            if (entry) {
-              entry.quantity += 1;
-              setCart([...cart]);
-              toast.success(`Mais um "${item.name}" adicionado ao carrinho! Total de ${entry.quantity} itens.`);
+
+            if (quantity === 0) {
+              setCart(cart.filter(entry => entry.id !== item.id));
+              return toast.success(`${item.name} removido do carrinho!`);
             }
-          }}
-          decrementQuantity={item => {
-            const entry = cart.find(entry => entry.id === item.id);
+
             if (entry) {
-              entry.quantity -= 1;
-              if (entry.quantity === 0) {
-                setCart(cart.filter(entry => entry.id !== item.id));
-                toast.success(`${item.name} removido do carrinho!`);
-              } else {
-                setCart([...cart]);
-                toast.success(`Um "${item.name}" removido do carrinho! Total de ${entry.quantity} itens.`);
-              }
+              entry.quantity = quantity;
+              setCart([...cart]);
+              toast.success(`Quantidade de "${item.name}" atualizada para ${quantity}!`);
             }
           }}
         />
@@ -179,9 +177,42 @@ function Menu(props: MenuProps): JSX.Element {
 }
 
 function Cart(props: CartProps): JSX.Element {
+  const total = props.cart.reduce((total, entry) => total + entry.price * entry.quantity, 0).toFixed(2);
   return (
-    <div>
-      {JSON.stringify(props.cart)}
-    </div>
+    <section className='flex flex-col w-full h-screen overflow-y-auto gap-5 p-4'>
+      <div className='mx-4 mt-2 flex flex-row justify-between'>
+        <h1 className=' text-3xl font-bold'>Carrinho</h1>
+        {+total > 0 && (
+          <span className='flex flex-row items-center justify-center text-base font-bold'>
+            <p>Total:</p>
+            <p className='mx-2'>R${total}</p>
+          </span>
+        )}
+      </div>
+      <div className='flex flex-col w-full gap-5 p-4'>
+        {props.cart.map(entry => (
+          <CartItem
+            key={entry.id}
+            category={entry.category}
+            name={entry.name}
+            price={entry.price}
+            image={entry.image}
+            quantity={entry.quantity}
+            id={entry.id}
+            updateQuantity={props.updateQuantity}
+            totalAvailable={entry.totalAvailable}
+          />
+        ))}
+      </div>
+      {+total > 0 && (
+        <div className='w-[200px] ml-[75%]'>
+          <Button
+            theme='primary'
+            label='Finalizar pedido'
+            onClick={() => toast.success('Pedido finalizado com sucesso!')}
+          />
+        </div>
+      )}
+    </section>
   );
 }
