@@ -22,6 +22,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export function Input(props: InputProps): JSX.Element {
   const _props = { ...props };
   delete _props.containerClassName;
+  delete _props.noHighlightOnFocus;
 
   return (
     <div className={getContainerClassName(props)}>
