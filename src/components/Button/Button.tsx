@@ -62,9 +62,9 @@ function getButtonClassName(props: ButtonProps): string {
   if (!props.icon)
     classes.push('px-2');
   if (props.iconPosition === 'left')
-    classes.push('pl-4 pr-2');
+    classes.push('pl-12 pr-2');
   else if (props.iconPosition === 'right')
-    classes.push('pl-2 pr-4');
+    classes.push('pl-2 pr-12');
 
   if (props.theme === 'primary')
     classes.push('bg-primary border-primary text-white');
