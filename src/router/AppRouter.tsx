@@ -6,8 +6,8 @@ import { RouteWrapper } from './RouteWrapper';
 // Routes definitions ----------------------------------------------------------
 
 const RedirectElement = <Redirect />;
-const LoginElement = <RouteWrapper element={<Login />} isPrivate title='Pidão | Login' />;
-const RegisterElement = <RouteWrapper element={<Register />} isPrivate title='Pidão | Register' />;
+const LoginElement = <RouteWrapper element={<Login />} title='Pidão | Login' />;
+const RegisterElement = <RouteWrapper element={<Register />} title='Pidão | Register' />;
 const DashboardElement = <RouteWrapper element={<Dashboard />} isPrivate title='Pidão | Dashboard' />;
 
 // Router ----------------------------------------------------------------------
