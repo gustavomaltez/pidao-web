@@ -30,6 +30,9 @@
       "@screens": [
         "screens"
       ],
+      "@fakeapi": [
+        "fakeapi"
+      ],
     }
   },
   "include": [
